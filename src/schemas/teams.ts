@@ -1,19 +1,21 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Base } from './base';
+import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+
+import { Base } from "./base";
 
 @Schema()
 export class Teams extends Base {
-  @Prop()
-  name: string;
-  @Prop()
-  guildId: string;
+	@Prop()
+	name: string;
 
-  @Prop()
-  captain: string;
+	@Prop()
+	guildId: string;
 
-  @Prop([String])
-  memberIds: string[];
+	@Prop()
+	captain: string;
+
+	@Prop([String])
+	memberIds: string[];
 }
 
 export type TeamsDocument = Teams & Document;

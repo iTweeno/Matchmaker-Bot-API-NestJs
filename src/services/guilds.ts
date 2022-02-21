@@ -1,46 +1,38 @@
-import fetch from 'node-fetch';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { IDiscordOauth2, IGuilds } from 'src/types/base';
-import { Channels, ChannelsDocument } from '../schemas/channels';
+import fetch from "node-fetch";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
+import { Injectable } from "@nestjs/common";
+
+import { Channels, ChannelsDocument } from "../schemas/channels";
+
+import { IDiscordOauth2, IGuilds } from "src/types/base";
 
 @Injectable()
 class GuildsService {
-  constructor(
-    @InjectModel(Channels.name)
-    private readonly channelsModel: Model<ChannelsDocument>,
-  ) {}
-  public async getGuildsUserAndBotIsIn(
-    cookie: IDiscordOauth2,
-  ): Promise<IGuilds[]> {
-    try {
-      const tokenData = await fetch(
-        'https://discord.com/api/users/@me/guilds',
-        {
-          headers: {
-            authorization: `${cookie.token_type} ${cookie.access_token}`,
-          },
-        },
-      );
-      const tokenDataAsJson = await tokenData.json();
+	constructor(
+		@InjectModel(Channels.name)
+		private readonly channelsModel: Model<ChannelsDocument>
+	) {}
 
-      const serversInCommonWithDb = await this.channelsModel.find({
-        $or: tokenDataAsJson.map((e) => ({ guildId: e.id })),
-      });
+	public async getGuildsUserAndBotIsIn(cookie: IDiscordOauth2): Promise<IGuilds[]> {
+		const tokenData = await fetch("https://discord.com/api/users/@me/guilds", {
+			headers: {
+				authorization: `${cookie.token_type} ${cookie.access_token}`,
+			},
+		});
+		const tokenDataAsJson = await tokenData.json();
 
-      const a = tokenDataAsJson.filter((e) =>
-        serversInCommonWithDb.find((f) => f.guildId === e.id),
-      );
+		const serversInCommonWithDb = await this.channelsModel.find({
+			$or: tokenDataAsJson.map((e) => ({ guildId: e.id })),
+		});
 
-      return a.map((e) => ({
-        id: e.id,
-        name: e.name,
-        icon: e.icon,
-      })) as IGuilds[];
-    } catch (err) {
-      throw err;
-    }
-  }
+		const a = tokenDataAsJson.filter((e) => serversInCommonWithDb.find((f) => f.guildId === e.id));
+
+		return a.map((e) => ({
+			id: e.id,
+			name: e.name,
+			icon: e.icon,
+		})) as IGuilds[];
+	}
 }
 export default GuildsService;

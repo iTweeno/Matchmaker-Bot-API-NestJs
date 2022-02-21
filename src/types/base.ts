@@ -1,31 +1,29 @@
-import { ObjectId } from 'bson';
+import { ObjectId } from "bson";
 
-type UpdateOptions<T> = Partial<
-  Omit<T, '_id' | 'guildId' | 'userId' | 'channelId'>
->;
+type UpdateOptions<T> = Partial<Omit<T, "_id" | "guildId" | "userId" | "channelId">>;
 
 interface IUpdateResult {
-  acknowledged: boolean;
+	acknowledged: boolean;
 
-  matchedCount: number;
+	matchedCount: number;
 
-  modifiedCount: number;
+	modifiedCount: number;
 
-  upsertedCount: number;
+	upsertedCount: number;
 
-  upsertedId: ObjectId;
+	upsertedId: ObjectId;
 }
 
 interface IDiscordOauth2 {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  scope: string;
-  token_type: string;
+	access_token: string;
+	expires_in: number;
+	refresh_token: string;
+	scope: string;
+	token_type: string;
 }
 interface IGuilds {
-  id: string;
-  name: string;
-  icon: string;
+	id: string;
+	name: string;
+	icon: string;
 }
 export { UpdateOptions, IUpdateResult, IDiscordOauth2, IGuilds };

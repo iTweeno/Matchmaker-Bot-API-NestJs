@@ -1,7 +1,7 @@
-import { Types, SchemaTypes } from 'mongoose';
-import { Prop } from '@nestjs/mongoose';
+import { Types, SchemaTypes } from "mongoose";
+import { Prop } from "@nestjs/mongoose";
 
 export class Base {
-  @Prop({ type: SchemaTypes.ObjectId })
-  _id: Types.ObjectId;
+	@Prop({ type: SchemaTypes.ObjectId })
+	_id: Types.ObjectId;
 }

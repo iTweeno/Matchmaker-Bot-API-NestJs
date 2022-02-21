@@ -1,29 +1,30 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Base } from './base';
+import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+
+import { Base } from "./base";
 
 @Schema()
 export class Channels extends Base {
-  @Prop()
-  queueSize: number;
+	@Prop()
+	queueSize: number;
 
-  @Prop()
-  queueType: string;
+	@Prop()
+	queueType: string;
 
-  @Prop()
-  guildId: string;
+	@Prop()
+	guildId: string;
 
-  @Prop()
-  channelId: string;
+	@Prop()
+	channelId: string;
 
-  @Prop({ default: true })
-  createVoiceChannels: boolean;
+	@Prop({ default: true })
+	createVoiceChannels: boolean;
 
-  @Prop({ default: false })
-  createTextChannels: boolean;
+	@Prop({ default: false })
+	createTextChannels: boolean;
 
-  @Prop({ default: true })
-  sendDirectMessage: boolean;
+	@Prop({ default: true })
+	sendDirectMessage: boolean;
 }
 
 export type ChannelsDocument = Channels & Document;

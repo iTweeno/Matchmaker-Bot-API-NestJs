@@ -1,29 +1,29 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Base } from './base';
+import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-@Schema({ collection: 'teamsLeaderboard' })
+import { Base } from "./base";
+
+@Schema({ collection: "teamsLeaderboard" })
 export class TeamsLeaderboard extends Base {
-  @Prop()
-  name: string;
+	@Prop()
+	name: string;
 
-  @Prop()
-  guildId: string;
+	@Prop()
+	guildId: string;
 
-  @Prop()
-  channelId: string;
+	@Prop()
+	channelId: string;
 
-  @Prop({ default: 0 })
-  wins: number;
+	@Prop({ default: 0 })
+	wins: number;
 
-  @Prop({ default: 0 })
-  losses: number;
+	@Prop({ default: 0 })
+	losses: number;
 
-  @Prop({ default: 1000 })
-  mmr: number;
+	@Prop({ default: 1000 })
+	mmr: number;
 }
 
 export type TeamsLeaderboardDocument = TeamsLeaderboard & Document;
 
-export const TeamsLeaderboardSchema =
-  SchemaFactory.createForClass(TeamsLeaderboard);
+export const TeamsLeaderboardSchema = SchemaFactory.createForClass(TeamsLeaderboard);
