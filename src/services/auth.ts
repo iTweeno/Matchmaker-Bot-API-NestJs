@@ -1,9 +1,10 @@
 import fetch from 'node-fetch';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { IDiscordOauth2 } from 'src/types/base';
 
 @Injectable()
 class authService {
-  public async auth(code: string): Promise<string> {
+  public async auth(code: string): Promise<IDiscordOauth2> {
     try {
       const response = await fetch('https://discordapp.com/api/oauth2/token', {
         method: 'POST',
@@ -19,8 +20,30 @@ class authService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      console.log(await response.json());
-      return 'a';
+      const responseAsJson = await response.json();
+      if (responseAsJson.error) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: responseAsJson.error,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      return responseAsJson;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  public async getUserData(cookie: IDiscordOauth2): Promise<any> {
+    try {
+      const response = await fetch('https://discord.com/api/users/@me', {
+        headers: {
+          authorization: `${cookie.token_type} ${cookie.access_token}`,
+        },
+      });
+      return response.json();
     } catch (err) {
       throw err;
     }

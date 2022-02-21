@@ -21,6 +21,8 @@ import { Teams, TeamsSchema } from './schemas/teams';
 import { Channels, ChannelsSchema } from './schemas/channels';
 import LoginController from './controllers/auth';
 import LoginService from './services/auth';
+import GuildsController from './controllers/guilds';
+import GuildsService from './services/guilds';
 
 @Module({
   imports: [
@@ -39,6 +41,7 @@ import LoginService from './services/auth';
     ChannelsController,
     TeamsLeaderboardController,
     LoginController,
+    GuildsController,
   ],
   providers: [
     SolosLeaderboardService,
@@ -46,6 +49,7 @@ import LoginService from './services/auth';
     ChannelsService,
     TeamsLeaderboardService,
     LoginService,
+    GuildsService,
   ],
 })
 export default class AppModule {}

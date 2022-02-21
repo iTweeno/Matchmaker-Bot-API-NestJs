@@ -5,6 +5,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import fastifyCookie from 'fastify-cookie';
 
 import AppModule from './app.module';
 
@@ -13,6 +14,12 @@ async function createAPIInstance() {
     AppModule,
     new FastifyAdapter(),
   );
+
+  app.enableCors({ credentials: true, origin: 'http://localhost:3000' });
+
+  app.register(fastifyCookie, {
+    secret: process.env.COOKIES_TOKEN,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Matchmaking API')
