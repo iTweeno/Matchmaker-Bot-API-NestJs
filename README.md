@@ -33,6 +33,9 @@ The environment variables mentioned in the [Enviroment Variables](#enviroment_va
 If everything is set up correctly, run the following command for an optimal development environment, which will watch for changes in the typescript files and auto-restart the server if necessary.
 - `yarn start:watch`
 
+For Deployment, the correct command is:
+- `yarn start:prod`
+
 Linting can be run using the following commands:
 - `yarn lint`
 

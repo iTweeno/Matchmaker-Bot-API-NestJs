@@ -1,7 +1,6 @@
 import { FastifyRequest } from "fastify";
-import { Controller, Get, Req, HttpException, HttpStatus } from "@nestjs/common";
-
-import { IDiscordOauth2 } from "src/types/base";
+import { Controller, Get, Req } from "@nestjs/common";
+import { IDiscordOauth2 } from "src/types/discord";
 import GuildsService from "src/services/guilds";
 
 @Controller("guilds")
@@ -14,18 +13,8 @@ export class GuildsController {
 
 	@Get("getguildsuserandbotisin")
 	async getGuildsUserAndBotIsIn(@Req() request: FastifyRequest) {
-		console.log(decodeURIComponent(request.cookies.discordTokenInfo));
-		const cookie = JSON.parse(decodeURIComponent(request.cookies.discordTokenInfo)) as IDiscordOauth2;
+		const cookie: IDiscordOauth2 = JSON.parse(decodeURIComponent(request.cookies.discordTokenInfo));
 
-		if (!cookie) {
-			throw new HttpException(
-				{
-					status: HttpStatus.UNAUTHORIZED,
-					error: "User is not Logged in!",
-				},
-				HttpStatus.UNAUTHORIZED
-			);
-		}
 		return await this._guildsService.getGuildsUserAndBotIsIn(cookie);
 	}
 }

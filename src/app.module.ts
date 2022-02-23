@@ -1,6 +1,6 @@
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule } from "@nestjs/config";
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 
 import TeamsLeaderboardService from "./services/teamsLeaderboard";
 import TeamsService from "./services/teams";
@@ -18,6 +18,7 @@ import SolosLeaderboardController from "./controllers/solosLeaderboard";
 import GuildsController from "./controllers/guilds";
 import ChannelsController from "./controllers/channels";
 import LoginController from "./controllers/auth";
+import DiscordTokenValidation from "./middleware/discordTokenValidation";
 
 @Module({
 	imports: [
@@ -47,4 +48,8 @@ import LoginController from "./controllers/auth";
 		GuildsService,
 	],
 })
-export default class AppModule {}
+export default class AppModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(DiscordTokenValidation).forRoutes(GuildsController);
+	}
+}

@@ -5,7 +5,8 @@ import { Injectable } from "@nestjs/common";
 
 import { Channels, ChannelsDocument } from "../schemas/channels";
 
-import { IDiscordOauth2, IGuilds } from "src/types/base";
+import { IGuilds } from "src/types/base";
+import { IDiscordOauth2 } from "src/types/discord";
 
 @Injectable()
 class GuildsService {
@@ -20,10 +21,10 @@ class GuildsService {
 				authorization: `${cookie.token_type} ${cookie.access_token}`,
 			},
 		});
-		const tokenDataAsJson = await tokenData.json();
+		const tokenDataAsJson = (await tokenData.json()) as any;
 
 		const serversInCommonWithDb = await this.channelsModel.find({
-			$or: tokenDataAsJson.map((e) => ({ guildId: e.id })),
+			$or: tokenDataAsJson.map((e: any) => ({ guildId: e.id })),
 		});
 
 		const a = tokenDataAsJson.filter((e) => serversInCommonWithDb.find((f) => f.guildId === e.id));

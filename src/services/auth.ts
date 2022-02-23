@@ -1,11 +1,11 @@
 import fetch from "node-fetch";
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 
-import { IDiscordOauth2 } from "src/types/base";
+import { IDiscordBasicInformation, IDiscordError, IDiscordOauth2 } from "src/types/discord";
 
 @Injectable()
 class authService {
-	public async auth(code: string): Promise<IDiscordOauth2> {
+	public async auth(code: string): Promise<IDiscordBasicInformation> {
 		const response = await fetch("https://discordapp.com/api/oauth2/token", {
 			method: "POST",
 			body: new URLSearchParams({
@@ -20,7 +20,9 @@ class authService {
 				"Content-Type": "application/x-www-form-urlencoded",
 			},
 		});
-		const responseAsJson = await response.json();
+		// this is wrong lol
+		const responseAsJson: IDiscordError & IDiscordBasicInformation = await response.json();
+
 		if (responseAsJson.error) {
 			throw new HttpException(
 				{
@@ -30,16 +32,16 @@ class authService {
 				HttpStatus.BAD_REQUEST
 			);
 		}
-		return responseAsJson;
+		return responseAsJson as IDiscordBasicInformation;
 	}
 
-	public async getUserData(cookie: IDiscordOauth2): Promise<any> {
+	public async getUserData(cookie: IDiscordOauth2): Promise<IDiscordBasicInformation> {
 		const response = await fetch("https://discord.com/api/users/@me", {
 			headers: {
 				authorization: `${cookie.token_type} ${cookie.access_token}`,
 			},
 		});
-		return response.json();
+		return (await response.json()) as IDiscordBasicInformation;
 	}
 }
 export default authService;
