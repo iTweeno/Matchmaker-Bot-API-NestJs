@@ -36,6 +36,6 @@ jobs:
       - name: Build docker image
         run: docker build -t ${{ github.event.repository.name }} .
       - name: Docker tag
-        run: docker tag bot ghcr.io/matchmakerbot/${{ github.event.repository.name }}:latest
+        run: docker tag ${{ github.event.repository.name }} ghcr.io/matchmakerbot/${{ github.event.repository.name }}:latest
       - name: Push docker image
         run: docker push ghcr.io/matchmakerbot/${{ github.event.repository.name }}:latest
