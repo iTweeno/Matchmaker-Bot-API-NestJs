@@ -4,9 +4,9 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import { NestFactory } from "@nestjs/core";
 import { VersioningType } from "@nestjs/common";
 
-import AppModule from "./app.module";
+import AppModule from "./app";
 
-async function createAPIInstance() {
+(async () => {
 	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
 	app.enableCors({ credentials: true, origin: "http://localhost:3000" });
@@ -36,5 +36,4 @@ async function createAPIInstance() {
 	await app.listen(3000, "0.0.0.0");
 
 	console.log(`Application is running on: ${await app.getUrl()}`);
-}
-createAPIInstance();
+})();

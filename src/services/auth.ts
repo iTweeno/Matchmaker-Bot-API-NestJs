@@ -20,7 +20,7 @@ class authService {
 				"Content-Type": "application/x-www-form-urlencoded",
 			},
 		});
-		// this is wrong lol
+
 		const responseAsJson: IDiscordError & IDiscordBasicInformation = await response.json();
 
 		if (responseAsJson.error) {

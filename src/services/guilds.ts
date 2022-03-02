@@ -24,7 +24,7 @@ class GuildsService {
 		const tokenDataAsJson = (await tokenData.json()) as any;
 
 		const serversInCommonWithDb = await this.channelsModel.find({
-			$or: tokenDataAsJson.map((e: any) => ({ guildId: e.id })),
+			$or: tokenDataAsJson.map((e) => ({ guildId: e.id })),
 		});
 
 		const a = tokenDataAsJson.filter((e) => serversInCommonWithDb.find((f) => f.guildId === e.id));
