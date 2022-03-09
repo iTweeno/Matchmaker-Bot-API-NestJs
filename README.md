@@ -11,15 +11,13 @@ The REST API for [matchmakerbot.gg](https://matchmakerbot.gg), that allows users
 ## Enviroment_Variables
 
 The following environment variabled are required to run the container:
-- **MONGO_HOST**: MongoDB host.
-- **MONGO_DB**: MongoDB database name.
-- **MONGO_CERT**: MongoDB x509 cert.
-- **MONGO_CA**: MongoDB CA cert.
+- **MONGO_HOST**: MongoDB host
+- **MONGO_USERNAME**: MongoDB username.
+- **MONGO_PASSWORD**: MongoDB password.
 - **WEB_ADDRESS**: Host address for CORS.
-- **WEBSERVER_PORT**: Port to run the API on.
-- **WEBSERVER_ADDRESS**: Address to run the server on (eg. 0.0.0.0).
-- **API_ACCESS_TOKEN**: Token that will be required for accessing protected routes.
 - **COOKIES_TOKEN**: Token used to generate cookies.
+- **CLIENT_ID**: Discord Client Id.
+- **CLIENT_SECRET**: Discord Client Secret.
 
 ## Development
 

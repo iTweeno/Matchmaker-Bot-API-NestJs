@@ -13,7 +13,7 @@ import DiscordTokenValidation from "./middleware/discordTokenValidation";
 	imports: [
 		MongooseModule.forRoot(
 			process.env.NODE_ENV === "prod"
-				? `mongodb:${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}//@mongo-headless.mongo.svc.cluster.local:27017/matchmaker`
+				? `mongodb:${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}//@${process.env.MONGO_HOST}:27017/matchmaker`
 				: "mongodb://localhost:27017/matchmaker"
 		),
 		AuthModule,
