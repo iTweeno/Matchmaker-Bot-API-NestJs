@@ -1,13 +1,12 @@
 import { MongooseModule } from "@nestjs/mongoose";
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import AuthModule from "./modules/auth";
 import ChannelsModule from "./modules/channels";
 import GuildsModule from "./modules/guilds";
 import TeamsModule from "./modules/teams";
 import SolosLeaderboardModule from "./modules/solosLeaderboard";
 import TeamsLeaderboardModule from "./modules/teamsLeaderboard";
-
-import DiscordTokenValidation from "./middleware/discordTokenValidation";
 
 @Module({
 	imports: [
@@ -16,6 +15,7 @@ import DiscordTokenValidation from "./middleware/discordTokenValidation";
 				? `mongodb:${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}//@${process.env.MONGO_HOST}:27017/matchmaker`
 				: "mongodb://localhost:27017/matchmaker"
 		),
+		ConfigModule.forRoot({ envFilePath: ".env" }),
 		AuthModule,
 		ChannelsModule,
 		GuildsModule,
@@ -24,8 +24,4 @@ import DiscordTokenValidation from "./middleware/discordTokenValidation";
 		TeamsLeaderboardModule,
 	],
 })
-export default class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(DiscordTokenValidation).forRoutes("/v(.*)/guilds");
-	}
-}
+export default class AppModule {}

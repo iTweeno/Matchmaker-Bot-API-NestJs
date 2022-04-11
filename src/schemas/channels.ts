@@ -9,7 +9,7 @@ export class Channels extends Base {
 	queueSize: number;
 
 	@Prop()
-	queueType: string;
+	queueMode: string;
 
 	@Prop()
 	guildId: string;
@@ -25,6 +25,9 @@ export class Channels extends Base {
 
 	@Prop({ default: true })
 	sendDirectMessage: boolean;
+
+	@Prop()
+	name?: string;
 }
 
 export type ChannelsDocument = Channels & Document;

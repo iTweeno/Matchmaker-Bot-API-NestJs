@@ -12,7 +12,7 @@ class TeamsService {
 	) {}
 
 	public async getTeamsByGuildId(channelId: string): Promise<TeamsDocument[]> {
-		return await this.TeamsModel.find({ channelId });
+		return await this.TeamsModel.find({ channelId }); //cant be fucked adding pagination lol
 	}
 }
 export default TeamsService;

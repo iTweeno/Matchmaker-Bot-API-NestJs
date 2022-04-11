@@ -1,15 +1,22 @@
 import fastifyCookie from "fastify-cookie";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { readFileSync } from "fs";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { NestFactory } from "@nestjs/core";
 import { VersioningType } from "@nestjs/common";
-
 import AppModule from "./app";
 
 (async () => {
-	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+	const httpOptions = { key: readFileSync("./cert/cert.key"), cert: readFileSync("./cert/cert.crt") };
 
-	app.enableCors({ credentials: true, origin: "http://localhost:3000" });
+	const app = await NestFactory.create<NestFastifyApplication>(
+		AppModule,
+		new FastifyAdapter({
+			https: httpOptions,
+		})
+	);
+
+	app.enableCors({ credentials: true, origin: "https://localhost:3000" });
 
 	app.register(fastifyCookie, {
 		secret: process.env.COOKIES_TOKEN,
@@ -31,9 +38,9 @@ import AppModule from "./app";
 
 	const document = SwaggerModule.createDocument(app, config);
 
-	SwaggerModule.setup("swagger", app, document);
+	SwaggerModule.setup("api", app, document);
 
-	await app.listen(3000, "0.0.0.0");
+	await app.listen(8080, "0.0.0.0");
 
 	console.log(`Application is running on: ${await app.getUrl()}`);
 })();

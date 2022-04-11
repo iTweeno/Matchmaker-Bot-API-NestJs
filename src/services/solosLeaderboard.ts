@@ -16,10 +16,7 @@ class SolosLeaderboardService {
 	public async getSolosLeaderboardByChannelId(channelId: string, skip: number): Promise<SolosLeaderboardDocument[]> {
 		try {
 			this.logger.log(`getSolosLeaderboardByChannelId: ${channelId}`);
-			return await this.solosLeaderboardModel
-				.find({ channelId })
-				.skip(skip ?? 0)
-				.limit(10);
+			return await this.solosLeaderboardModel.find({ channelId }).skip(skip).limit(10).sort({ mmr: -1 });
 		} catch (err) {
 			this.logger.error(err);
 			throw err;

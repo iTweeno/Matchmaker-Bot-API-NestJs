@@ -13,9 +13,11 @@ interface IUpdateResult {
 
 	upsertedId: ObjectId;
 }
+
 interface IGuilds {
 	id: string;
 	name: string;
 	icon: string;
 }
+
 export { UpdateOptions, IUpdateResult, IGuilds };
