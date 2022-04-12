@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 import { Channels, ChannelsDocument } from "../schemas/channels";
 
@@ -22,6 +22,16 @@ class GuildsService {
 			},
 		});
 		const tokenDataAsJson = (await tokenData.json()) as any;
+
+		if (tokenDataAsJson.message) {
+			throw new HttpException(
+				{
+					status: HttpStatus.BAD_REQUEST,
+					error: "Cookie is invalid!",
+				},
+				HttpStatus.UNAUTHORIZED
+			);
+		}
 
 		const serversInCommonWithDb = await this.channelsModel.find({
 			$or: tokenDataAsJson.map((e) => ({ guildId: e.id })),

@@ -73,7 +73,7 @@ class authService {
 
 				refreshResponseAsJson.expires_in = Date.now() + refreshResponseAsJson.expires_in;
 
-				res.setCookie("discordTokenInfo", JSON.stringify(await refreshResponse.json()), {
+				res.setCookie("discordTokenInfo", JSON.stringify(refreshResponseAsJson), {
 					expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
 					httpOnly: true,
 					secure: true,
