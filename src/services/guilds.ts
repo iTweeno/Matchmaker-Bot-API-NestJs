@@ -21,9 +21,11 @@ class GuildsService {
 				authorization: `${cookie.token_type} ${cookie.access_token}`,
 			},
 		});
-		const tokenDataAsJson = (await tokenData.json()) as any;
+		const tokenDataAsJson = await tokenData.json();
 
-		if (tokenDataAsJson.message) {
+		if (tokenDataAsJson.message === "You are being rate limited.") {
+			throw new HttpException("You are being rate limited.", HttpStatus.TOO_MANY_REQUESTS);
+		} else if (tokenDataAsJson.message) {
 			throw new HttpException(
 				{
 					status: HttpStatus.BAD_REQUEST,
@@ -37,9 +39,9 @@ class GuildsService {
 			$or: tokenDataAsJson.map((e) => ({ guildId: e.id })),
 		});
 
-		const a = tokenDataAsJson.filter((e) => serversInCommonWithDb.find((f) => f.guildId === e.id));
+		const filteredGuilds = tokenDataAsJson.filter((e) => serversInCommonWithDb.find((f) => f.guildId === e.id));
 
-		return a.map((e) => ({
+		return filteredGuilds.map((e) => ({
 			id: e.id,
 			name: e.name,
 			icon: e.icon,

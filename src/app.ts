@@ -7,6 +7,7 @@ import GuildsModule from "./modules/guilds";
 import TeamsModule from "./modules/teams";
 import SolosLeaderboardModule from "./modules/solosLeaderboard";
 import TeamsLeaderboardModule from "./modules/teamsLeaderboard";
+import UsersModule from "./modules/users";
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import TeamsLeaderboardModule from "./modules/teamsLeaderboard";
 		TeamsModule,
 		SolosLeaderboardModule,
 		TeamsLeaderboardModule,
+		UsersModule,
 	],
 })
 export default class AppModule {}

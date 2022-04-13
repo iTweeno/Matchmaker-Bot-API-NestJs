@@ -33,9 +33,11 @@ class channelsService {
 
 		const discordChannelsJson = (await discordChannels.json()) as APIChannel[];
 
-		const channelsInDb = await this.channelsModel.find({ channelId: { $in: discordChannelsJson.map((e) => e.id) } });
+		const channelsInDb: any = await this.channelsModel.find({
+			channelId: { $in: discordChannelsJson.map((e) => e.id) },
+		});
 
-		return (channelsInDb as any).map((e) => {
+		return channelsInDb.map((e) => {
 			return {
 				...e._doc,
 				name: discordChannelsJson.find((c) => c.id === e.channelId)?.name,

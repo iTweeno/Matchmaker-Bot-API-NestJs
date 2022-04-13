@@ -5,7 +5,7 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { IDiscordBasicInformation, IDiscordOauth2 } from "src/types/discord";
 
 @Injectable()
-class authService {
+class AuthService {
 	public async auth(code: string): Promise<IDiscordOauth2> {
 		const response = await fetch("https://discordapp.com/api/oauth2/token", {
 			method: "POST",
@@ -39,21 +39,11 @@ class authService {
 		return responseAsJson;
 	}
 
-	public async getUserData(cookie: IDiscordOauth2): Promise<IDiscordBasicInformation> {
-		const response = await fetch("https://discord.com/api/users/@me", {
-			headers: {
-				authorization: `${cookie.token_type} ${cookie.access_token}`,
-			},
-		});
-		return (await response.json()) as IDiscordBasicInformation;
-	}
-
 	async validateCookie(req: FastifyRequest, res: FastifyReply) {
-		let err = false;
 		try {
 			const discordTokenInfo = JSON.parse(req.cookies.discordTokenInfo);
 			if (!discordTokenInfo) {
-				err = true;
+				throw new Error();
 			}
 			if (discordTokenInfo.expires_in < Date.now()) {
 				const refreshResponse = await fetch("https://discordapp.com/api/oauth2/token", {
@@ -82,19 +72,15 @@ class authService {
 				});
 			}
 		} catch (e) {
-			err = true;
-		} finally {
-			if (err) {
-				throw new HttpException(
-					{
-						status: HttpStatus.BAD_REQUEST,
-						error: "Cookie is invalid!",
-					},
-					HttpStatus.UNAUTHORIZED
-				);
-			}
+			throw new HttpException(
+				{
+					status: HttpStatus.BAD_REQUEST,
+					error: "Cookie is invalid!",
+				},
+				HttpStatus.UNAUTHORIZED
+			);
 		}
 		return res.status(200).send();
 	}
 }
-export default authService;
+export default AuthService;
