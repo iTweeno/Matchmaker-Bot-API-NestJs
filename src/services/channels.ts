@@ -34,6 +34,7 @@ class channelsService {
 		const discordChannelsJson = (await discordChannels.json()) as APIChannel[];
 
 		const channelsInDb: any = await this.channelsModel.find({
+			// Any because the document shows metadata, and the ChannelsDocument isnt expecting that
 			channelId: { $in: discordChannelsJson.map((e) => e.id) },
 		});
 

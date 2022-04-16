@@ -20,4 +20,6 @@ interface IGuilds {
 	icon: string;
 }
 
-export { UpdateOptions, IUpdateResult, IGuilds };
+type IPagination<T> = { total: number; data: T };
+
+export { UpdateOptions, IUpdateResult, IGuilds, IPagination };

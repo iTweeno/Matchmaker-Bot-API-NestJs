@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 
-import { IDiscordBasicInformation, IDiscordOauth2 } from "src/types/discord";
+import { IDiscordOauth2 } from "src/types/discord";
 
 @Injectable()
 class AuthService {

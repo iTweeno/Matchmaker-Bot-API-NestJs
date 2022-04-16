@@ -8,6 +8,7 @@ import TeamsModule from "./modules/teams";
 import SolosLeaderboardModule from "./modules/solosLeaderboard";
 import TeamsLeaderboardModule from "./modules/teamsLeaderboard";
 import UsersModule from "./modules/users";
+import { ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
 	imports: [
@@ -16,6 +17,7 @@ import UsersModule from "./modules/users";
 				? `mongodb:${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}//@${process.env.MONGO_HOST}:27017/matchmaker`
 				: "mongodb://localhost:27017/matchmaker"
 		),
+		ThrottlerModule.forRoot({ ttl: 60, limit: 20 }),
 		ConfigModule.forRoot({ envFilePath: ".env" }),
 		AuthModule,
 		ChannelsModule,
