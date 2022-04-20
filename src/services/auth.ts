@@ -14,7 +14,7 @@ class AuthService {
 				client_id: process.env.CLIENT_ID,
 				client_secret: process.env.CLIENT_SECRET,
 				grant_type: "authorization_code",
-				redirect_uri: `https://localhost:3000/auth`,
+				redirect_uri: `${process.env.HOST}/auth`,
 				scope: "identify guilds",
 			}),
 			headers: {
@@ -22,14 +22,8 @@ class AuthService {
 			},
 		});
 
-		if (response.status === 400) {
-			throw new HttpException(
-				{
-					status: HttpStatus.BAD_REQUEST,
-					error: response.statusText,
-				},
-				HttpStatus.BAD_REQUEST
-			);
+		if (response.status.toString().startsWith("4")) {
+			throw new HttpException(response.statusText, response.status);
 		}
 
 		const responseAsJson: IDiscordOauth2 = await response.json();
@@ -59,6 +53,10 @@ class AuthService {
 					},
 				});
 
+				if (refreshResponse.status.toString().startsWith("4")) {
+					throw new HttpException(refreshResponse.statusText, refreshResponse.status);
+				}
+
 				const refreshResponseAsJson: IDiscordOauth2 = await refreshResponse.json();
 
 				refreshResponseAsJson.expires_in = Date.now() + refreshResponseAsJson.expires_in;
@@ -74,7 +72,7 @@ class AuthService {
 		} catch (e) {
 			throw new HttpException(
 				{
-					status: HttpStatus.BAD_REQUEST,
+					status: HttpStatus.UNAUTHORIZED,
 					error: "Cookie is invalid!",
 				},
 				HttpStatus.UNAUTHORIZED

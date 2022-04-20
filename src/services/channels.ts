@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpException, Injectable, Logger } from "@nestjs/common";
 import fetch from "node-fetch";
 import { APIChannel } from "discord-api-types/v8";
 
@@ -25,23 +25,27 @@ class channelsService {
 	public async getChannelsByGuildId(guildId: string): Promise<Channels[]> {
 		this.logger.log(`getChannelsByGuildId: ${guildId}`);
 
-		const discordChannels = await fetch(`https://discordapp.com/api/v8/guilds/${guildId}/channels`, {
+		const response = await fetch(`https://discordapp.com/api/v8/guilds/${guildId}/channels`, {
 			headers: {
 				Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
 			},
 		});
 
-		const discordChannelsJson = (await discordChannels.json()) as APIChannel[];
+		if (response.status.toString().startsWith("4")) {
+			throw new HttpException(response.statusText, response.status);
+		}
+
+		const discordChannelsJson = (await response.json()) as APIChannel[];
 
 		const channelsInDb: any = await this.channelsModel.find({
 			// Any because the document shows metadata, and the ChannelsDocument isnt expecting that
-			channelId: { $in: discordChannelsJson.map((e) => e.id) },
+			channelId: { $in: discordChannelsJson.map((channel) => channel.id) },
 		});
 
-		return channelsInDb.map((e) => {
+		return channelsInDb.map((channel: { _doc: any; channelId: string }) => {
 			return {
-				...e._doc,
-				name: discordChannelsJson.find((c) => c.id === e.channelId)?.name,
+				...channel._doc,
+				name: discordChannelsJson.find((c) => c.id === channel.channelId)?.name,
 			};
 		});
 	}
@@ -50,7 +54,7 @@ class channelsService {
 		this.logger.log(`getChannelsByGuildId: ${guildIds}`);
 
 		return await this.channelsModel.find({
-			$or: [guildIds.map((e) => ({ guildId: e }))],
+			$or: [guildIds.map((guildId) => ({ guildId }))],
 		});
 	}
 

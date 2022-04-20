@@ -1,6 +1,5 @@
 import { FastifyRequest } from "fastify";
 import { Controller, Get, Req } from "@nestjs/common";
-import { IDiscordOauth2 } from "src/types/discord";
 import GuildsService from "src/services/guilds";
 
 @Controller("guilds")
@@ -12,10 +11,8 @@ export class GuildsController {
 	}
 
 	@Get("getguildsuserandbotisin")
-	async getGuildsUserAndBotIsIn(@Req() request: FastifyRequest) {
-		const cookie: IDiscordOauth2 = JSON.parse(decodeURIComponent(request.cookies.discordTokenInfo));
-
-		return await this._guildsService.getGuildsUserAndBotIsIn(cookie);
+	async getGuildsUserAndBotIsIn(@Req() req: FastifyRequest) {
+		return await this._guildsService.getGuildsUserAndBotIsIn(req);
 	}
 }
 

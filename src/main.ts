@@ -16,7 +16,7 @@ import AppModule from "./app";
 		})
 	);
 
-	app.enableCors({ credentials: true, origin: "https://localhost:3000" });
+	app.enableCors({ credentials: true, origin: process.env.HOST });
 
 	app.register(fastifyCookie, {
 		secret: process.env.COOKIES_TOKEN,

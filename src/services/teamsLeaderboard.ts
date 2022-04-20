@@ -19,7 +19,7 @@ class TeamsLeaderboardService {
 		const data = await this.TeamsLeaderboardModel.find({ channelId })
 			.skip(skip ?? 0)
 			.limit(10)
-			.sort({ mmr: -1 });
+			.sort({ mmr: -1, wins: -1 });
 		const total = await this.TeamsLeaderboardModel.countDocuments({ channelId });
 		return { total, data } as IPagination<TeamsLeaderboardDocument[]>;
 	}

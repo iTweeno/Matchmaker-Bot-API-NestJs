@@ -18,6 +18,7 @@ The following environment variabled are required to run the container:
 - **COOKIES_TOKEN**: Token used to generate cookies.
 - **CLIENT_ID**: Discord Client Id.
 - **CLIENT_SECRET**: Discord Client Secret.
+- **HOST**: Host URL.
 
 ## Development
 
@@ -42,7 +43,6 @@ For any additional commands, check out the package.json.
 ## Deployment
 
 I use GitHub Actions CI/CD and Kubernetes for my deployments. All required into regarding deployments can be found in /.github and /chart.
-
 
 ## Authors
 

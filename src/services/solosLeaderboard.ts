@@ -19,8 +19,14 @@ class SolosLeaderboardService {
 	): Promise<IPagination<SolosLeaderboardDocument[]>> {
 		try {
 			this.logger.log(`getSolosLeaderboardByChannelId: ${channelId}`);
-			const data = await this.solosLeaderboardModel.find({ channelId }).skip(skip).limit(10).sort({ mmr: -1 });
+			const data = await this.solosLeaderboardModel
+				.find({ channelId })
+				.skip(skip)
+				.limit(10)
+				.sort({ mmr: -1, wins: -1, userId: -1 });
+
 			const total = await this.solosLeaderboardModel.countDocuments({ channelId });
+
 			return { total, data } as IPagination<SolosLeaderboardDocument[]>;
 		} catch (err) {
 			this.logger.error(err);
@@ -30,10 +36,7 @@ class SolosLeaderboardService {
 
 	public async getSolosLeaderboardsByGuildId(guildId: string, skip: number): Promise<SolosLeaderboardDocument[]> {
 		this.logger.log(`getSolosLeaderboardsByGuildId: ${guildId}, ${this.solosLeaderboardModel.collection.name}`);
-		return await this.solosLeaderboardModel
-			.find({ guildId })
-			.skip(skip ?? 0)
-			.limit(10);
+		return await this.solosLeaderboardModel.find({ guildId }).skip(skip).limit(10);
 	}
 }
 export default SolosLeaderboardService;
