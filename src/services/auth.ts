@@ -22,7 +22,7 @@ class AuthService {
 			},
 		});
 
-		if (response.status.toString().startsWith("4")) {
+		if (/^(4|5)/.test(response.status.toString())) {
 			throw new HttpException(response.statusText, response.status);
 		}
 
@@ -53,7 +53,7 @@ class AuthService {
 					},
 				});
 
-				if (refreshResponse.status.toString().startsWith("4")) {
+				if (/^(4|5)/.test(refreshResponse.status.toString())) {
 					throw new HttpException(refreshResponse.statusText, refreshResponse.status);
 				}
 

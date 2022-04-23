@@ -17,11 +17,6 @@ export class TeamsLeaderboardController {
 	) {
 		return await this._TeamsLeaderboardService.getTeamsLeaderboardByChannelId(channelId, skip);
 	}
-
-	@Get("guild/:guildId")
-	async getTeamsLeaderboardByGuildId(@Param("guildId") guildId: string, @Query("skip", ParseIntPipe) skip: number) {
-		return await this._TeamsLeaderboardService.getTeamsLeaderboardByGuildId(guildId, skip);
-	}
 }
 
 export default TeamsLeaderboardController;

@@ -31,7 +31,7 @@ class channelsService {
 			},
 		});
 
-		if (response.status.toString().startsWith("4")) {
+		if (/^(4|5)/.test(response.status.toString())) {
 			throw new HttpException(response.statusText, response.status);
 		}
 
@@ -47,14 +47,6 @@ class channelsService {
 				...channel._doc,
 				name: discordChannelsJson.find((c) => c.id === channel.channelId)?.name,
 			};
-		});
-	}
-
-	public async getChannelsByGuildIds(guildIds: string[]): Promise<ChannelsDocument[]> {
-		this.logger.log(`getChannelsByGuildId: ${guildIds}`);
-
-		return await this.channelsModel.find({
-			$or: [guildIds.map((guildId) => ({ guildId }))],
 		});
 	}
 

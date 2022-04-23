@@ -25,7 +25,7 @@ class GuildsService {
 				},
 			});
 
-			if (tokenDataResponse.status.toString().startsWith("4")) {
+			if (/^(4|5)/.test(tokenDataResponse.status.toString())) {
 				throw new HttpException(tokenDataResponse.statusText, tokenDataResponse.status);
 			}
 

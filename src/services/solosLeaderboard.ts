@@ -2,7 +2,7 @@ import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { Injectable, Logger } from "@nestjs/common";
 import { SolosLeaderboard, SolosLeaderboardDocument } from "../schemas/solosLeaderboard";
-import { IPagination } from "src/types/base";
+import { Pagination } from "src/types/base";
 
 @Injectable()
 class SolosLeaderboardService {
@@ -16,7 +16,7 @@ class SolosLeaderboardService {
 	public async getSolosLeaderboardByChannelId(
 		channelId: string,
 		skip: number
-	): Promise<IPagination<SolosLeaderboardDocument[]>> {
+	): Promise<Pagination<SolosLeaderboardDocument[]>> {
 		try {
 			this.logger.log(`getSolosLeaderboardByChannelId: ${channelId}`);
 			const data = await this.solosLeaderboardModel
@@ -27,7 +27,7 @@ class SolosLeaderboardService {
 
 			const total = await this.solosLeaderboardModel.countDocuments({ channelId });
 
-			return { total, data } as IPagination<SolosLeaderboardDocument[]>;
+			return { total, data } as Pagination<SolosLeaderboardDocument[]>;
 		} catch (err) {
 			this.logger.error(err);
 			throw err;

@@ -20,4 +20,11 @@ interface IDiscordOauth2 {
 	token_type: string;
 }
 
-export { IDiscordBasicInformation, IDiscordError, IDiscordOauth2 };
+interface IDiscordUser {
+	id: string;
+	username: string;
+	avatar: string;
+	discriminator: string;
+}
+
+export { IDiscordBasicInformation, IDiscordError, IDiscordOauth2, IDiscordUser };

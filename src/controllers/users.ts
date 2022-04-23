@@ -12,7 +12,7 @@ export class UsersController {
 	}
 
 	@Get("getuserdata")
-	async login(@Req() req: FastifyRequest) {
+	async getUser(@Req() req: FastifyRequest) {
 		return await this._userService.getUser(req);
 	}
 }
