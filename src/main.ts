@@ -1,5 +1,6 @@
 import fastifyCookie from "fastify-cookie";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import rateLimit from "fastify-rate-limit";
 import { readFileSync } from "fs";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { NestFactory } from "@nestjs/core";
@@ -15,6 +16,11 @@ import AppModule from "./app";
 			https: httpOptions,
 		})
 	);
+
+	app.register(rateLimit, {
+		max: 100,
+		timeWindow: "1 minute",
+	});
 
 	app.enableCors({ credentials: true, origin: process.env.HOST });
 

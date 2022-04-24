@@ -28,6 +28,7 @@
     "cross-env": "^7.0.3",
     "discord-api-types": "^0.31.0",
     "fastify-cookie": "^5.5.0",
+    "fastify-rate-limit": "^5.8.0",
     "fastify-swagger": "^4.15.0",
     "mongoose": "^6.2.3",
     "node-fetch": "2.6.1",
