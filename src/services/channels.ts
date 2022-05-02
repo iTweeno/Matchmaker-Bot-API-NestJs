@@ -4,7 +4,6 @@ import { HttpException, Injectable, Logger } from "@nestjs/common";
 import fetch from "node-fetch";
 import { APIChannel } from "discord-api-types/v8";
 
-import { IUpdateResult, UpdateOptions } from "../types/base";
 import { Channels, ChannelsDocument } from "../schemas/channels";
 
 @Injectable()
@@ -38,7 +37,7 @@ class channelsService {
 		const discordChannelsJson = (await response.json()) as APIChannel[];
 
 		const channelsInDb: any = await this.channelsModel.find({
-			// Any because the document shows metadata, and the ChannelsDocument isnt expecting that
+			// Any because the document shows metadata, and the ChannelsDocument interface isn't expecting that.
 			channelId: { $in: discordChannelsJson.map((channel) => channel.id) },
 		});
 
@@ -48,12 +47,6 @@ class channelsService {
 				name: discordChannelsJson.find((c) => c.id === channel.channelId)?.name,
 			};
 		});
-	}
-
-	public async editChannel(channelId: string, body: UpdateOptions<Channels>): Promise<IUpdateResult> {
-		this.logger.log(`editChannel: ${channelId}, ${JSON.stringify(body)}`);
-
-		return await this.channelsModel.updateOne({ channelId }, body);
 	}
 }
 export default channelsService;

@@ -18,7 +18,7 @@ import AppModule from "./app";
 	);
 
 	app.register(rateLimit, {
-		max: 100,
+		max: 50,
 		timeWindow: "1 minute",
 	});
 

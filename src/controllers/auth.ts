@@ -23,12 +23,14 @@ export class AuthController {
 			path: "/",
 		});
 
-		res.status(200);
+		res.status(200).send();
 	}
 
 	@Get("validatecookie")
 	async validateCookie(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
-		return this._authService.validateCookie(req, res);
+		await this._authService.validateCookie(req, res);
+
+		res.status(200).send();
 	}
 }
 

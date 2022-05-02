@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Body } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 
 import ChannelsService from "../services/channels";
 
@@ -18,11 +18,6 @@ export class ChannelsController {
 	@Get("guild/:guildId")
 	async getChannelByGuildId(@Param("guildId") channelId: string) {
 		return await this._channelsService.getChannelsByGuildId(channelId);
-	}
-
-	@Patch("/:channelId")
-	async editChannel(@Param("channelId") channelId: string, @Body() body) {
-		return await this._channelsService.editChannel(channelId, body);
 	}
 }
 

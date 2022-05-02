@@ -78,7 +78,6 @@ class AuthService {
 				HttpStatus.UNAUTHORIZED
 			);
 		}
-		return res.status(200).send();
 	}
 }
 export default AuthService;
