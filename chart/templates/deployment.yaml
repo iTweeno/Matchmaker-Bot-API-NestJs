@@ -53,9 +53,9 @@ spec:
               mountPath: /etc/tls
             - name: temp
               mountPath: /tmp
-          volumes:
-            - name: "{{ .Release.Name }}-cert"
-              secret:
-                secretName: "{{ .Release.Name }}-cert"
-            - name: temp
-              emptyDir: {}
+      volumes:
+        - name: "{{ .Release.Name }}-cert"
+          secret:
+            secretName: "{{ .Release.Name }}-cert"
+        - name: temp
+          emptyDir: {}

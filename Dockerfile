@@ -11,4 +11,4 @@ COPY package.json yarn.lock ./
 RUN yarn --production --frozen-lockfile --ignore-scripts
 EXPOSE 3000
 
-ENTRYPOINT ["yarn", "start:prod"]
+ENTRYPOINT ["yarn", "prod"]
