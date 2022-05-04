@@ -39,3 +39,17 @@ jobs:
         run: docker tag ${{ github.event.repository.name }} ghcr.io/matchmakerbot/${{ github.event.repository.name }}:latest
       - name: Push docker image
         run: docker push ghcr.io/matchmakerbot/${{ github.event.repository.name }}:latest
+  deploy:
+    name: Deploy to kubernetes
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Kube Config File
+        run: echo $KUBE_CONFIG | base64 --decode > $GITHUB_WORKSPACE/.kubeconfig
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      - name: Install helm
+        run: curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
+      - name: Update deployment
+        run: helm upgrade ${{ github.event.repository.name }} ./chart --install --atomic --namespace matchmaker --timeout 2m --kubeconfig=$GITHUB_WORKSPACE/.kubeconfig --set-string sha=${{ github.sha }} --set-string discord.client.secret="${{ secrets.DISCORD_CLIENT_SECRET }}" --set-string discord.client.id="${{ secrets.DISCORD_CLIENT_ID }}" --set-string cookies.token="${{ secrets.COOKIES_TOKEN }}" --set-string mongo.username="${{ secrets.MONGO_USERNAME }}" --set-string mongo.password="${{ secrets.MONGO_PASSWORD }}" --set-string cert.pem="${{ secrets.CERT_PEM }}" --set-string cert.key="${{ secrets.CERT_KEY }}"
