@@ -11,10 +11,10 @@ class AuthService {
 			method: "POST",
 			body: new URLSearchParams({
 				code,
-				client_id: process.env.CLIENT_ID,
-				client_secret: process.env.CLIENT_SECRET,
+				client_id: process.env.DISCORD_CLIENT_ID,
+				client_secret: process.env.DISCORD_CLIENT_SECRET,
 				grant_type: "authorization_code",
-				redirect_uri: `${process.env.HOST}/auth`,
+				redirect_uri: `https://${process.env.HOST}/auth`,
 				scope: "identify guilds",
 			}),
 			headers: {
@@ -43,8 +43,8 @@ class AuthService {
 				const refreshResponse = await fetch("https://discordapp.com/api/oauth2/token", {
 					method: "POST",
 					body: new URLSearchParams({
-						client_id: process.env.CLIENT_ID,
-						client_secret: process.env.CLIENT_SECRET,
+						client_id: process.env.DISCORD_CLIENT_ID,
+						client_secret: process.env.DISCORD_CLIENT_SECRET,
 						grant_type: "refresh_token",
 						refresh_token: discordTokenInfo.refresh_token,
 					}),
