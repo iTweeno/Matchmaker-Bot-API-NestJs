@@ -9,6 +9,6 @@ WORKDIR /app
 COPY --from=appbuild ./app/dist ./dist
 COPY package.json yarn.lock ./
 RUN yarn --production --frozen-lockfile --ignore-scripts
-EXPOSE 3000
+EXPOSE 8080
 
 ENTRYPOINT ["yarn", "prod"]

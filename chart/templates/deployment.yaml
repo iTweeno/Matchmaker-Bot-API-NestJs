@@ -17,7 +17,7 @@ spec:
         - name: "{{ .Release.Name }}"
           image: "ghcr.io/matchmakerbot/{{ .Release.Name }}:latest"
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
           resources:
             requests:
               cpu: 100m
@@ -33,7 +33,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /api/v1/healthz
-              port: 3000
+              port: 8080
             failureThreshold: 1
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -42,7 +42,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /api/v1/healthz
-              port: 3000
+              port: 8080
             failureThreshold: 3
             initialDelaySeconds: 10
             periodSeconds: 20
