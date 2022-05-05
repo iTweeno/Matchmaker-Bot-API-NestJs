@@ -7,21 +7,23 @@ import GuildsModule from "./modules/guilds";
 import SolosLeaderboardModule from "./modules/solosLeaderboard";
 import TeamsLeaderboardModule from "./modules/teamsLeaderboard";
 import UsersModule from "./modules/users";
+import HealthzModule from "./modules/healthz";
 
 @Module({
 	imports: [
+		ConfigModule.forRoot({ envFilePath: ".env" }),
 		MongooseModule.forRoot(
 			`mongodb://${
 				process.env.NODE_ENV === "prod" ? `${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@` : ""
 			}${process.env.MONGO_HOST}:27017/matchmaker`
 		),
-		ConfigModule.forRoot({ envFilePath: ".env" }),
 		AuthModule,
 		ChannelsModule,
 		GuildsModule,
 		SolosLeaderboardModule,
 		TeamsLeaderboardModule,
 		UsersModule,
+		HealthzModule,
 	],
 })
 export default class AppModule {}
