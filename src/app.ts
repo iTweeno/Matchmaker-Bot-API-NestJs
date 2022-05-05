@@ -11,9 +11,9 @@ import UsersModule from "./modules/users";
 @Module({
 	imports: [
 		MongooseModule.forRoot(
-			process.env.NODE_ENV === "prod"
-				? `mongodb:${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}//@${process.env.MONGO_HOST}:27017/matchmaker`
-				: "mongodb://localhost:27017/matchmaker"
+			`mongodb://${
+				process.env.NODE_ENV === "prod" ? `${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@` : ""
+			}${process.env.MONGO_HOST}:27017/matchmaker`
 		),
 		ConfigModule.forRoot({ envFilePath: ".env" }),
 		AuthModule,
