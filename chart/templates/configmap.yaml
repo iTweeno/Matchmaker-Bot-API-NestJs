@@ -4,5 +4,5 @@ metadata:
   name: "{{ .Release.Name }}-config"
   namespace: "{{ .Release.Namespace }}"
 data:
-  HOST: https://matchmakerbot.net
+  HOSTNAME: matchmakerbot.net
   MONGO_HOST: mongo-service.mongo.svc.cluster.local

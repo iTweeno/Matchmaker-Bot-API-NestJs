@@ -27,7 +27,7 @@ import AppModule from "./app";
 		timeWindow: "1 minute",
 	});
 
-	app.enableCors({ credentials: true, origin: process.env.HOST });
+	app.enableCors({ credentials: true, origin: `https://${process.env.HOSTNAME}` });
 
 	app.register(fastifyCookie, {
 		secret: process.env.COOKIES_TOKEN,

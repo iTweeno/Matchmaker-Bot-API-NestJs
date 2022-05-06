@@ -14,11 +14,10 @@ The following environment variabled are required to run the container:
 - **MONGO_HOST**: MongoDB host
 - **MONGO_USERNAME**: MongoDB username.
 - **MONGO_PASSWORD**: MongoDB password.
-- **WEB_ADDRESS**: Host address for CORS.
 - **COOKIES_TOKEN**: Token used to generate cookies.
 - **CLIENT_ID**: Discord Client Id.
 - **CLIENT_SECRET**: Discord Client Secret.
-- **HOST**: Host URL.
+- **HOSTNAME**: Host Name.
 
 ## Development
 
