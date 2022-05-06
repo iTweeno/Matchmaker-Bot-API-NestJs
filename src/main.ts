@@ -9,8 +9,8 @@ import AppModule from "./app";
 
 (async () => {
 	const httpOptions = {
-		key: readFileSync(process.env.NODE_ENV === "prod" ? "/etc/tls/cert.key" : "./cert/cert.key"),
-		cert: readFileSync(process.env.NODE_ENV === "prod" ? "/etc/tls/cert.pem" : "./cert/cert.pem"),
+		key: readFileSync(process.env.NODE_ENV === "prod" ? null : "./cert/cert.key"),
+		cert: readFileSync(process.env.NODE_ENV === "prod" ? null : "./cert/cert.pem"),
 	};
 
 	const app = await NestFactory.create<NestFastifyApplication>(
