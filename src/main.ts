@@ -8,16 +8,18 @@ import { VersioningType } from "@nestjs/common";
 import AppModule from "./app";
 
 (async () => {
-	const httpOptions = {
-		key: readFileSync(process.env.NODE_ENV === "prod" ? null : "./cert/cert.key"),
-		cert: readFileSync(process.env.NODE_ENV === "prod" ? null : "./cert/cert.pem"),
-	};
-
 	const app = await NestFactory.create<NestFastifyApplication>(
 		AppModule,
-		new FastifyAdapter({
-			https: httpOptions,
-		})
+		new FastifyAdapter(
+			process.env.NODE_ENV === "prod"
+				? {}
+				: {
+						https: {
+							key: readFileSync("./cert/cert.key"),
+							cert: readFileSync("./cert/cert.pem"),
+						},
+				  }
+		)
 	);
 
 	app.register(rateLimit, {
