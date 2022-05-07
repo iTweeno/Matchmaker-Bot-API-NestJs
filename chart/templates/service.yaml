@@ -3,7 +3,7 @@ kind: Service
 metadata:
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app: "{{ .Release.Name }}-deployment"
+    app: "{{ .Release.Name }}"
   name: "{{ .Release.Name }}-service"
 spec:
   type: ClusterIP
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app: "{{ .Release.Name }}-deployment"
+    app: "{{ .Release.Name }}"
