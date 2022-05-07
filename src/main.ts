@@ -45,7 +45,7 @@ import AppModule from "./app";
 		defaultVersion: "1",
 	});
 
-	app.setGlobalPrefix("/api");
+	app.setGlobalPrefix(process.env.NODE_ENV === "prod" ? "" : "/api");
 
 	const document = SwaggerModule.createDocument(app, config);
 
