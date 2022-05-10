@@ -17,7 +17,7 @@ The following environment variabled are required to run the container:
 - **COOKIES_TOKEN**: Token used to generate cookies.
 - **CLIENT_ID**: Discord Client Id.
 - **CLIENT_SECRET**: Discord Client Secret.
-- **HOSTNAME**: Host Name.
+- **HOST_NAME**: Host Name.
 
 ## Development
 

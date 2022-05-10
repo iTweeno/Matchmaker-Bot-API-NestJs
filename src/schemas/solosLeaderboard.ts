@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 import { Base } from "./base";
 
-@Schema({ collection: "solosLeaderboard" })
+@Schema({ collection: "matchmakerUsersScore" })
 export class SolosLeaderboard extends Base {
 	@Prop()
 	userId: string;

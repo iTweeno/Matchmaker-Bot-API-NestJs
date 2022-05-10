@@ -14,7 +14,7 @@ class AuthService {
 				client_id: process.env.DISCORD_CLIENT_ID,
 				client_secret: process.env.DISCORD_CLIENT_SECRET,
 				grant_type: "authorization_code",
-				redirect_uri: `https://${process.env.HOSTNAME}/auth`,
+				redirect_uri: `https://${process.env.HOST_NAME}/auth`,
 				scope: "identify guilds",
 			}),
 			headers: {
