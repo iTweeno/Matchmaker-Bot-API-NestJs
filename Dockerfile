@@ -1,10 +1,10 @@
-FROM node:16-alpine AS appbuild
+FROM arm64v8/node:16-alpine AS appbuild
 WORKDIR /app
 COPY . .
 RUN yarn --dev
 RUN yarn build
 
-FROM node:16-alpine
+FROM arm64v8/node:16-alpine
 WORKDIR /app
 COPY --from=appbuild ./app/dist ./dist
 COPY package.json yarn.lock ./
